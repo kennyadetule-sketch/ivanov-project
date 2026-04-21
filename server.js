@@ -5,9 +5,9 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
 
-const User = require('./models/User');
-const Request = require('./models/Request');
-const Admin = require('./models/admin');
+const User = require('./User');
+const Request = require('./Request');
+const Admin = require('./admin');
 
 const app = express();
 
