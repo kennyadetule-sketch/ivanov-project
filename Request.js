@@ -25,9 +25,15 @@ const requestSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  
   service: {
     type: String,
     required: true
+  },
+  description: {
+    type: String,
+    trim: true,
+    default: ''
   }
 }, { timestamps: true });
 
