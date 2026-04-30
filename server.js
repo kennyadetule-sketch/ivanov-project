@@ -45,12 +45,15 @@ function authenticateAdmin(req, res, next) {
 
 // ================= EMAIL SETUP =================
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
   }
 });
+
 
 // ================= DATABASE =================
 mongoose.connect(process.env.MONGO_URI)
@@ -211,9 +214,12 @@ app.post('/request', async (req, res) => {
           <p><strong>Description:</strong> ${description || 'No description provided'}</p>
         `
       });
-    } catch (err) {
-      emailSent = false;
-    }
+    } 
+    catch (err) {
+  console.error("EMAIL ERROR:", err);
+  emailSent = false;
+}
+
 
     res.status(201).json({
       success: true,
