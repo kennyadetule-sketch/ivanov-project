@@ -57,19 +57,15 @@ mongoose.connect(process.env.MONGO_URI)
 
 // ================= CREATE DEFAULT ADMIN =================
 async function createAdmin() {
-  const existing = await Admin.findOne({ username: 'ivanov-admin' });
+  const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
 
-  if (!existing) {
-    const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'ChangeThisNow123!', 10);
+  await Admin.findOneAndUpdate(
+    { username: 'ivanov-admin' },
+    { password: hashedPassword },
+    { upsert: true }
+  );
 
-    const admin = new Admin({
-      username: 'ivanov-admin',
-      password: hashedPassword
-    });
-
-    await admin.save();
-    console.log('Default admin created');
-  }
+  console.log('Admin password updated');
 }
 
 // ================= ROUTES =================
@@ -191,7 +187,7 @@ app.post('/request', async (req, res) => {
 
     try {
       await resend.emails.send({
-        from: 'Ivanov <onboarding@resend.dev>',
+       from: 'Ivanov <noreply@resend.dev>',
         to: [process.env.EMAIL_USER],
         replyTo: email,
         subject: `New ${service} Request from ${name}`,
