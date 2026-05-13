@@ -192,7 +192,7 @@ app.post('/request', async (req, res) => {
     try {
       await resend.emails.send({
        from: 'onboarding@resend.dev',
-        to: [process.env.EMAIL_USER],
+        to: ['ivosioncreativesystem.lightweb@gmail.com'],
         replyTo: email,
         subject: `New ${service} Request from ${name}`,
         html: `
