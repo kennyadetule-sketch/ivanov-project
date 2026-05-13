@@ -8,6 +8,10 @@ const User = require('./models/User');
 const Request = require('./models/Request');
 const Admin = require('./models/admin');
 const { Resend } = require('resend');
+if (!process.env.RESEND_API_KEY) {
+  console.error("❌ RESEND_API_KEY missing");
+}
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const app = express();
